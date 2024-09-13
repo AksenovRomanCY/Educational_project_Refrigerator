@@ -13,10 +13,15 @@ def add(items: dict, title: str, amount: Decimal, expiration_date: str = None):
 
 def add_by_note(items: dict, note: str):
     split_note = note.split()
-    if split_note[2]:
-        add(items, split_note[0], Decimal(split_note[1]), split_note[2])
-    else:
-        add(items, split_note[0], Decimal(split_note[1]))
+    title = split_note[0]
+    title_counter = 0
+    for part in split_note[1::]:
+        if part.isdigit():
+            break
+        else:
+            title += f" {part}"
+            title_counter += 1
+    add(items, title, Decimal(split_note[-2]), split_note[-1])
 
 
 def find(items: dict, needle):
@@ -37,5 +42,5 @@ goods = {
         {'amount': Decimal('0.5'), 'expiration_date': date(2023, 9, 30)}
     ]
 }
-add_by_note(goods, "Яйца 4 2023-07-15 ")
+add_by_note(goods, "Яйца Гусиные 4 2023-07-15 ")
 print(goods)
