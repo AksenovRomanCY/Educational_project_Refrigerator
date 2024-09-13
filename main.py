@@ -1,5 +1,6 @@
 from decimal import Decimal
 from datetime import date, datetime
+from wsgiref.simple_server import server_version
 
 
 def add(items: dict, title: str, amount: Decimal, expiration_date: str = None):
@@ -24,8 +25,13 @@ def add_by_note(items: dict, note: str):
     add(items, title, Decimal(split_note[-2]), split_note[-1])
 
 
-def find(items: dict, needle):
-    ...
+def find(items: dict, needle: str):
+    found = []
+    for item in items.keys():
+        search = item.find(needle)
+        if search != -1:
+            found.append(item)
+    return found
 
 
 def amount(items: dict, needle):
@@ -44,3 +50,4 @@ goods = {
 }
 add_by_note(goods, "Яйца Гусиные 4 2023-07-15 ")
 print(goods)
+print(find(goods, "ца"))
