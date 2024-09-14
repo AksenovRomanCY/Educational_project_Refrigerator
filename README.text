@@ -1,0 +1,131 @@
+The first project made during the course Yandex practicum.
+
+##Documentation
+This project is designed to manage products stored in the refrigerator.
+The main functions of the program allow you to add products to a list (dictionary),
+search for them by name, track expiration date and determine the total amount of a
+particular product. The project uses the goods dictionary to store information
+about products. Each product is stored as a list that includes quantity and expiration date.
+
+#Data structure
+The products in the refrigerator are stored in the goods dictionary, where the key
+is the name of the product and the value is a list of dictionaries describing batches
+of products. Each product batch contains the following data:
+
+-amount - the quantity of the product as a Decimal number.
+-expiration_date - expiration date of the product in the form of a date object.
+If there is no expiration date, the value is None.
+
+Example of data structure:
+goods = {.
+    'Eggs': [
+        { 'amount': Decimal('10'), 'expiration_date': datetime.date(2023, 9, 30)}
+        { { {'amount': Decimal('3'), 'expiration_date': datetime.date(2023, 10, 15)}
+    ],
+    'Water': [
+        {'amount': Decimal('2.5'), 'expiration_date': None}
+    ]
+}
+
+
+#Function description
+1. The add() function
+The function adds a new batch of a product to the goods dictionary. If a product with
+this name already exists in the dictionary, the new batch is added to the existing list.
+If the product does not exist, a new entry in the dictionary is created.
+
+Parameters:
+-items - the dictionary that stores the products (for example, goods).
+-title - string, the name of the product. It can contain spaces.
+-amount - the amount of the product to be added, Decimal object.
+-expiration_date - expiration date of the product, a string in the format %Y-%m-%d.
+This is an optional parameter, if there is no expiration date, the value None is passed.
+
+Example usage:
+add(goods, 'Eggs', Decimal('10'), '2023-09-30')
+add(goods, 'Water', Decimal('2.5'))
+
+After making these calls, the dictionary will look like this:
+goods = {
+    'Eggs': [
+        { 'amount': Decimal('10'), 'expiration_date': datetime.date(2023, 9, 30)}
+    ],
+    'Water': [
+        { {'amount': Decimal('2.5'), 'expiration_date': None}
+    ]
+}
+
+-----
+
+2. Function add_by_note()
+The function is intended for adding a product on the basis of a text note. The note
+consists of the product name, quantity and (optional) expiration date. The function
+automatically converts the string into structured data and calls add().
+
+Parameters:
+-items - a dictionary that stores products (e.g., goods).
+-note - a string with information about the product. The string should contain the
+product name, quantity and (optionally) expiration date in the format %Y-%m-%d.
+
+Example usage:
+add_by_note(goods, 'Eggs 4 2023-07-15')
+
+When executed, this call will create this data structure:
+goods = {
+    'Eggs': [
+        { 'amount': Decimal('4'), 'expiration_date': datetime.date(2023, 7, 15)}
+    ]
+}
+
+-----
+
+3. Find() function
+The function is intended for searching products by part of the name. It returns a
+list of product names that contain the string you are looking for. The search is
+case insensitive.
+
+Parameters:
+-items - the dictionary that stores the products (e.g., goods).
+-needle - the string that is searched for.
+
+Example usage:
+find(goods, 'ytz')
+
+Result:
+['Eggs']
+
+-----
+
+4. Function amount()
+The function counts the total amount of a product with a given name. It searches
+for products whose names contain the given string and returns the total amount of all
+found products. The search is case insensitive.
+
+Parameters:
+-items - a dictionary that stores products (for example, goods).
+-needle - the string to search for the product.
+
+Example usage:
+amount(goods, 'eggs')
+
+Result:
+Decimal('10')
+
+-----
+
+5. Function expire()
+The function returns a list of products that have expired or will expire in a
+specified number of days. Each product found is returned as a tuple, where the
+first element is the name of the product and the second element is the total
+quantity of the product.
+
+Parameters:
+items - the dictionary that stores the products (e.g., goods).
+in_advance_days - number of days until the product expiration date. If you specify 0,
+the function will return products that have expired at the time of the call.
+
+Example usage:
+expire(goods, 2)
+
+Result:
+[('Eggs', Decimal('5'))]]
